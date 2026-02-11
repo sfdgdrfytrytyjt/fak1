@@ -1,138 +1,97 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我的私人网盘</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
-body{background:#f2f5fa;padding:20px}
-.container{max-width:900px;margin:0 auto}
-.header{text-align:center;margin-bottom:30px}
-.header h1{font-size:26px;color:#222;margin-bottom:10px}
-.search-box{margin-bottom:20px}
-.search-input{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:15px}
-.upload-box{background:white;padding:25px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:25px}
-.upload-btn{background:#0071e3;color:white;padding:12px 20px;border:none;border-radius:8px;cursor:pointer;font-size:15px}
-.upload-btn:hover{background:#0077ed}
-#file-input{display:none}
-.file-list{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.file-item{display:flex;justify-content:space-between;align-items:center;padding:12px 10px;border-bottom:1px solid #eee}
-.file-item:last-child{border-bottom:none}
-.file-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.del-btn{color:white;background:#ff3b30;padding:6px 12px;border:none;border-radius:6px;cursor:pointer}
-.del-btn:hover{background:#ff453a}
-.download-btn{margin-right:8px;background:#0071e3;color:white;padding:6px 12px;border:none;border-radius:6px;cursor:pointer}
-.alert{color:#ff3b30;margin-top:10px;font-size:14px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>石头辅助 - 聚合页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 30px 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #4cd964;
+        }
+        .nav-list {
+            list-style: none;
+            gap: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-item a {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #3d3d3d;
+            border-radius: 8px;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: 1px solid #4cd96433;
+        }
+        .nav-item a:hover {
+            background: #4cd964;
+            color: #1a1a1a;
+            border-color: #4cd964;
+        }
+        .info {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+        }
+        .info p {
+            margin: 8px 0;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
 </head>
-
 <body>
-<div class="container">
-  <div class="header">
-    <h1>私人本地网盘</h1>
-    <p>文件存在本地浏览器，刷新不丢失</p>
-  </div>
-
-  <div class="search-box">
-    <input type="text" class="search-input" placeholder="搜索文件名..." id="search-input">
-  </div>
-
-  <div class="upload-box">
-    <button class="upload-btn" onclick="document.getElementById('file-input').click()">选择文件上传</button>
-    <input type="file" id="file-input" multiple>
-    <div class="alert" id="alert"></div>
-  </div>
-
-  <div class="file-list" id="file-list">
-    <div style="color:#999;text-align:center;padding:20px">暂无文件</div>
-  </div>
-</div>
-
-<script>
-const fileInput = document.getElementById('file-input');
-const fileList = document.getElementById('file-list');
-const searchInput = document.getElementById('search-input');
-const alert = document.getElementById('alert');
-const MAX_SIZE = 50 * 1024 * 1024; // 最大50MB
-
-// 加载保存的文件
-function loadFiles() {
-  let files = JSON.parse(localStorage.getItem('myDiskFiles') || '[]');
-  renderFiles(files);
-}
-
-// 渲染文件列表
-function renderFiles(files) {
-  if (files.length === 0) {
-    fileList.innerHTML = '<div style="color:#999;text-align:center;padding:20px">暂无文件</div>';
-    return;
-  }
-  fileList.innerHTML = files.map((f, i) => `
-    <div class="file-item">
-      <div class="file-name">${f.name}</div>
-      <div>
-        <button class="download-btn" onclick="downloadFile(${i})">下载</button>
-        <button class="del-btn" onclick="deleteFile(${i})">删除</button>
-      </div>
+    <div class="container">
+        <h1 class="title">石头辅助 聚合中心</h1>
+        <ul class="nav-list">
+            <li class="nav-item"><a href="https://jq.qq.com/?_wv=1027&k=你的群链接" target="_blank">交流群:933872489</a></li>
+            <li class="nav-item"><a href="#" target="_blank">下载教程</a></li>
+            <li class="nav-item"><a href="#" target="_blank">使用教程</a></li>
+            <li class="nav-item"><a href="#" target="_blank">MT管理器(先看教程)</a></li>
+            <li class="nav-item"><a href="#" target="_blank">购买卡密</a></li>
+            <li class="nav-item"><a href="#" target="_blank">石头辅助下载地址</a></li>
+            <li class="nav-item"><a href="https://link3.cc" target="_blank">免费制作Link3聚合页</a></li>
+        </ul>
+        <div class="info">
+            <p>官网地址：link3.cc/shimc</p>
+            <p><a href="#" style="color: #ff4444;">举报反馈</a></p>
+        </div>
+        <div class="copyright">
+            <p>© 2025 石头辅助 版权所有</p>
+        </div>
     </div>
-  `).join('');
-}
-
-// 上传
-fileInput.onchange = async (e) => {
-  let arr = Array.from(e.target.files);
-  let old = JSON.parse(localStorage.getItem('myDiskFiles') || '[]');
-  alert.textContent = '';
-  
-  for (let file of arr) {
-    if (file.size > MAX_SIZE) {
-      alert.textContent = `文件${file.name} 超过50MB，无法上传`;
-      continue;
-    }
-    let base64 = await toBase64(file);
-    old.push({ name: file.name, size: file.size, base64 });
-  }
-  
-  localStorage.setItem('myDiskFiles', JSON.stringify(old));
-  loadFiles();
-};
-
-// 转Base64
-function toBase64(file) {
-  return new Promise(res => {
-    let fr = new FileReader();
-    fr.onload = () => res(fr.result);
-    fr.readAsDataURL(file);
-  });
-}
-
-// 下载
-function downloadFile(index) {
-  let files = JSON.parse(localStorage.getItem('myDiskFiles'));
-  let a = document.createElement('a');
-  a.href = files[index].base64;
-  a.download = files[index].name;
-  a.click();
-}
-
-// 删除
-function deleteFile(index) {
-  let files = JSON.parse(localStorage.getItem('myDiskFiles'));
-  files.splice(index, 1);
-  localStorage.setItem('myDiskFiles', JSON.stringify(files));
-  loadFiles();
-}
-
-// 搜索功能
-searchInput.oninput = () => {
-  let keyword = searchInput.value.toLowerCase();
-  let files = JSON.parse(localStorage.getItem('myDiskFiles') || '[]');
-  let filtered = files.filter(f => f.name.toLowerCase().includes(keyword));
-  renderFiles(filtered);
-};
-
-loadFiles();
-</script>
 </body>
 </html>
